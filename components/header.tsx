@@ -86,7 +86,7 @@ export function Header() {
             className="md:hidden hover:bg-primary/10 transition-colors duration-200"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="h-14 w-14" /> : <Menu className="h-6 w-6" />}
+            {isMobileMenuOpen ? <X className="h-14 w-14" /> : <Menu className="h-14 w-14" />}
           </Button>
         </div>
         {/* Mobile Navigation */}
