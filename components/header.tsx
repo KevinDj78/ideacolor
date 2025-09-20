@@ -20,17 +20,17 @@ export function Header() {
     e.preventDefault()
     const targetId = href.replace('#', '')
     const targetElement = document.getElementById(targetId)
-    
+   
     if (targetElement) {
       const headerHeight = 100 // Altezza approssimativa dell'header + padding extra
       const targetPosition = targetElement.offsetTop - headerHeight
-      
+     
       window.scrollTo({
         top: targetPosition,
         behavior: 'smooth'
       })
     }
-    
+   
     // Chiudi il menu mobile se aperto
     setIsMobileMenuOpen(false)
   }
@@ -65,6 +65,7 @@ export function Header() {
               />
             </a>
           </div>
+
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
@@ -79,16 +80,17 @@ export function Header() {
               </a>
             ))}
           </nav>
+
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
-            size="icon"
-            className="md:hidden hover:bg-primary/10 transition-colors duration-200"
+            className="md:hidden hover:bg-primary/10 transition-colors duration-200 p-2 h-auto w-auto"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="h-14 w-14" /> : <Menu className="h-14 w-14" />}
+            {isMobileMenuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
           </Button>
         </div>
+
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <nav className="md:hidden mt-4 pb-4">
