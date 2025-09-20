@@ -84,7 +84,7 @@ const products = [
     name: "Vernice Auto Metallizzata",
     category: "Vernici carrozzeria",
     price: "€95.00",
-    image: "/vernici-per-carrozzeria.jpg"
+    image: "/Vernici-per-Carrozzeria.jpg"
   },
   {
     id: 28,
