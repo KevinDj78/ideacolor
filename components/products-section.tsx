@@ -8,57 +8,107 @@ import { Search } from "lucide-react"
 
 const categories = [
   "Tutti",
-  "Vernici per interni",
-  "Vernici per esterni",
-  "Rivestimenti decorativi",
-  "Carta da parati",
-  "Materiali per belle arti",
+  "Pitture per interni",
+  "Pitture per esterni",
+  "Decorativi murali",
+  "Carte da parati",
+  "Cornici murali",
+  "Cartongesso isolanti",
+  "Pavimenti",
+  "Tende da sole",
+  "Vernici carrozzeria",
+  "Cornici su misura",
+  "Belle arti e hobbistica",
+  "Collaborazioni"
 ]
 
 const products = [
   {
     id: 1,
-    name: "Vernice Premium Interni",
-    category: "Vernici per interni",
+    name: "Pittura interni",
+    category: "Pitture per interni",
     price: "€45.90",
-    image: "/premium-interior-paint-can-with-brush.jpg",
-  },
-  {
-    id: 2,
-    name: "Smalto Esterno Resistente",
-    category: "Vernici per esterni",
-    price: "€52.50",
-    image: "/exterior-paint-can-weatherproof.jpg",
-  },
-  {
-    id: 3,
-    name: "Rivestimento Decorativo Oro",
-    category: "Rivestimenti decorativi",
-    price: "€78.00",
-    image: "/decorative-gold-paint-finish.jpg",
+    image: "/Pitture-murali-per-interni.jpg"
   },
   {
     id: 4,
-    name: "Carta da Parati Floreale",
-    category: "Carta da parati",
+    name: "Pittura per esterni",
+    category: "Pitture per esterni",
+    price: "€52.50",
+    image: "/Pitture-murali-per-esterni.jpg"
+  },
+  {
+    id: 7,
+    name: "Valpaint",
+    category: "Decorativi murali",
+    price: "€78.00",
+    image: "/Decorativi murali.jpg"
+  },
+  {
+    id: 10,
+    name: "Carta da Parati Vinilica",
+    category: "Carte da parati",
     price: "€35.00",
-    image: "/elegant-floral-wallpaper-roll.jpg",
+    image: "/carta_da_parati.jpg"
   },
   {
-    id: 5,
-    name: "Set Colori Acrilici",
-    category: "Materiali per belle arti",
+    id: 13,
+    name: "Cornici Decorative murali",
+    category: "Cornici murali",
+    price: "€25.00",
+    image: "/cornici_murali.png"
+  },
+  {
+    id: 16,
+    name: "Pannelli Cartongesso Standard",
+    category: "Cartongesso isolanti",
+    price: "€24.50",
+    image: "/cartongesso_isolante.jpg"
+  },
+  {
+    id: 19,
+    name: "Parquet",
+    category: "Pavimenti",
+    price: "€35.90",
+    image: "/pavimenti.jpg"
+  },
+  {
+    id: 22,
+    name: "Tenda da Sole",
+    category: "Tende da sole",
+    price: "€320.00",
+    image: "/tende-da-sole.jpg"
+  },
+  {
+    id: 25,
+    name: "Vernice Auto Metallizzata",
+    category: "Vernici carrozzeria",
+    price: "€95.00",
+    image: "/vernici-per-carrozzeria.jpg"
+  },
+  {
+    id: 28,
+    name: "Cornice Legno su Misura",
+    category: "Cornici su misura",
+    price: "€75.00",
+    image: "/CORNICI-SU-MISURA.jpg"
+  },
+  {
+    id: 31,
+    name: "Set pennelli",
+    category: "Belle arti e hobbistica",
     price: "€28.90",
-    image: "/acrylic-paint-set-for-artists.jpg",
+    image: "/Belle-Arti2.jpg"
   },
   {
-    id: 6,
-    name: "Vernice Lavabile Cucina",
-    category: "Vernici per interni",
-    price: "€41.20",
-    image: "/washable-kitchen-paint-can.jpg",
-  },
+    id: 34,
+    name: "Progetto Decorativo Personalizzato",
+    category: "Collaborazioni",
+    price: "Su richiesta",
+    image: "/collaborazioni.jpg"
+  }
 ]
+
 
 export function ProductsSection() {
   const [selectedCategory, setSelectedCategory] = useState("Tutti")
@@ -76,7 +126,7 @@ export function ProductsSection() {
         <div className="text-center mb-12">
           <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground mb-4">I nostri prodotti</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Scopri la nostra vasta gamma di vernici e materiali di alta qualità per ogni esigenza
+            Scopri la nostra vasta gamma di prodotti per ogni esigenza: dalle pitture alle cornici, dai pavimenti alle tende da sole
           </p>
         </div>
 
@@ -98,7 +148,7 @@ export function ProductsSection() {
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
-                className="rounded-full"
+                className="rounded-full text-xs sm:text-sm px-3 py-1"
               >
                 {category}
               </Button>
@@ -107,7 +157,7 @@ export function ProductsSection() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <Card
               key={product.id}
@@ -123,18 +173,18 @@ export function ProductsSection() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-semibold text-lg text-card-foreground mb-2">{product.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-3">{product.category}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-primary">{product.price}</span>
-                    <Button size="sm" className="rounded-full">
-                      Aggiungi
-                    </Button>
-                  </div>
+                  <p className="text-muted-foreground text-sm">{product.category}</p>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
+
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground text-lg">Nessun prodotto trovato per la ricerca corrente.</p>
+          </div>
+        )}
       </div>
     </section>
   )

@@ -27,29 +27,22 @@ export function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className={`${isVisible ? "animate-slide-in-left" : "opacity-0"}`}>
             <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground mb-6">
-              La nostra passione per il colore
+              Il colore è la nostra passione!
             </h2>
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Da oltre 20 anni, Ideacolor è il punto di riferimento per chi vuole trasformare i propri spazi con il
-                potere del colore. La nostra passione nasce dalla convinzione che ogni ambiente possa raccontare una
-                storia unica attraverso le sfumature e le texture.
+
+Nel nostro negozio, sia al dettaglio che all’ingrosso, vi proponiamo le migliori marche presenti sul mercato e le più innovative soluzioni tecniche.
+
+Contattateci per una consulenza gratuita, vi sapremo consigliare prodotti specifici per un risultato professionale, sicuro e duraturo nel tempo.
               </p>
-              <p>
-                Il nostro team di esperti è sempre pronto ad ascoltare le tue esigenze e a consigliarti le soluzioni
-                migliori per realizzare i tuoi progetti. Dall'abitazione privata al locale commerciale, ogni progetto è
-                per noi un'opportunità di creare qualcosa di speciale.
-              </p>
-              <p>
-                L'attenzione al cliente e la qualità dei nostri prodotti sono i pilastri su cui abbiamo costruito la
-                nostra reputazione nel territorio.
-              </p>
+              
             </div>
           </div>
 
           <div className={`relative ${isVisible ? "animate-fade-in-up" : "opacity-0"} [animation-delay:0.3s]`}>
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img src="/modern-paint-store-interior-with-colorful-displays.jpg" alt="Negozio Ideacolor" className="w-full h-96 object-cover" />
+              <img src="/about.jpg" alt="Negozio Ideacolor" className="w-full h-96 object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>
 

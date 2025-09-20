@@ -15,33 +15,27 @@ export function HeroSection() {
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img src="/modern-colorful-living-room-with-vibrant-painted-w.jpg" alt="Ambiente colorato" className="w-full h-full object-cover" />
+        <img src="/sfondo.png" alt="Ambiente colorato" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/30"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <h1
-          className={`font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight ${
-            isVisible ? "animate-fade-in-up" : "opacity-0"
-          }`}
+          className={`font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight ${isVisible ? "animate-fade-in-up" : "opacity-0"
+            }`}
         >
-          Trasforma la tua casa con il <span className="text-accent">colore</span>
+          colori per il tuo <span className="text-pink-500">m</span>
+          <span className="text-cyan-500">o</span>
+          <span className="text-emerald-500">n</span>
+          <span className="text-orange-500">d</span>
+          <span className="text-indigo-500">o</span>
         </h1>
-
-        <p
-          className={`text-xl md:text-2xl text-white/90 mb-8 leading-relaxed ${
-            isVisible ? "animate-fade-in-up" : "opacity-0"
-          } [animation-delay:0.2s]`}
-        >
-          Esperti in vernici e soluzioni per interni ed esterni
-        </p>
 
         <Button
           size="lg"
-          className={`bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 ${
-            isVisible ? "animate-fade-in-up" : "opacity-0"
-          } [animation-delay:0.4s]`}
+          className={`bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 ${isVisible ? "animate-fade-in-up" : "opacity-0"
+            } [animation-delay:0.4s]`}
           onClick={() => document.getElementById("prodotti")?.scrollIntoView({ behavior: "smooth" })}
         >
           Scopri i nostri prodotti

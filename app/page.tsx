@@ -12,7 +12,6 @@ export default function Home() {
       <Header />
       <HeroSection />
       <ProductsSection />
-      <ServicesSection />
       <EventsSection />
       <AboutSection />
       <Footer />
