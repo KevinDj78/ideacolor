@@ -16,7 +16,6 @@ export const metadata: Metadata = {
   title: "Ideacolor - Trasforma la tua casa con il colore",
   description:
     "Esperti in vernici e soluzioni per interni ed esterni. Scopri la nostra gamma di prodotti per dare vita ai tuoi spazi.",
-  generator: "v0.app",
 }
 
 export default function RootLayout({
