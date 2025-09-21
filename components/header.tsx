@@ -1,113 +1,169 @@
 "use client"
+import Link from "next/link"
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu } from "lucide-react"
 import Image from "next/image"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+import { cn } from "@/lib/utils"
+import React from "react"
 
-export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+const components: { title: string; href: string; description: string }[] = [
+  {
+    title: "Home",
+    href: "#home",
+    description: "Torna alla pagina principale",
+  },
+  {
+    title: "Prodotti",
+    href: "#prodotti",
+    description: "Scopri la nostra gamma di prodotti",
+  },
+  {
+    title: "Eventi",
+    href: "#eventi",
+    description: "I nostri eventi e manifestazioni",
+  },
+  {
+    title: "Chi siamo",
+    href: "#chi-siamo",
+    description: "La nostra storia e i nostri valori",
+  },
+  {
+    title: "Contatti",
+    href: "#contatti",
+    description: "Come raggiungerci e contattarci",
+  },
+]
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+// Define ListItem component before usage
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a"> & { onClick?: () => void }
+>(({ className, title, children, onClick, href, ...props }, ref) => {
+  const handleCustomClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (href && href.startsWith('#')) {
+      event.preventDefault();
+      const id = href.substring(1);
+      const section = document.getElementById(id);
+      if (section) {
+        const offsetTop = section.getBoundingClientRect().top + window.scrollY - 100; // 100px offset for header
+        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+      }
     }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    const targetId = href.replace('#', '')
-    const targetElement = document.getElementById(targetId)
-   
-    if (targetElement) {
-      const headerHeight = 100 // Altezza approssimativa dell'header + padding extra
-      const targetPosition = targetElement.offsetTop - headerHeight
-     
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      })
+    
+    if (onClick) {
+      onClick();
     }
-   
-    // Chiudi il menu mobile se aperto
-    setIsMobileMenuOpen(false)
-  }
-
-  const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "Prodotti", href: "#prodotti" },
-    { name: "Eventi", href: "#eventi" },
-    { name: "Chi siamo", href: "#chi-siamo" },
-    { name: "Contatti", href: "#contatti" },
-  ]
+  };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/20 backdrop-blur-sm shadow-sm"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <a href="#home">
-              <Image
-                src={"/logo-ideacolor.png"}
-                alt="Ideacolor Logo"
-                width={40}
-                height={40}
-                className="h-14 md:h-16 w-auto transition-transform duration-200 hover:scale-105"
-              />
-            </a>
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+            className
+          )}
+          onClick={handleCustomClick}
+          href={href}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-xs leading-snug text-muted-foreground hover:text-primary-foreground/80">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  )
+});
+
+// Set display name separately
+ListItem.displayName = "ListItem";
+
+export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Listener per aggiungere ombra all'header quando si scrolla
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrolled]);
+
+  // Chiudi il menu quando si fa clic su un link
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <header className={`absolute top-0 left-0 right-0 bg-transparent text-white z-50 transition-all duration-300 ${scrolled ? 'shadow-lg backdrop-blur-sm bg-black/30' : ''}`}>
+      <div className="container mx-auto px-4 py-3 md:py-4">
+        {/* Layout con grid per garantire centramento perfetto */}
+        <div className="grid grid-cols-3 items-center">
+          {/* Menu a sinistra */}
+          <div className="flex justify-start">
+            <NavigationMenu
+              onValueChange={(open) => setIsMenuOpen(open === "menu")}
+              value={isMenuOpen ? "menu" : undefined}
+            >
+              <NavigationMenuList className="gap-4">
+                <NavigationMenuItem value="menu">
+                  <NavigationMenuTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 data-[state=open]:bg-primary/80 border-0">
+                    <Menu className="h-5 w-5" />
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[280px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[500px] mobile-menu-dropdown">
+                      {components.map((component) => (
+                        <ListItem
+                          key={component.title}
+                          title={component.title}
+                          href={component.href}
+                          onClick={handleLinkClick}
+                        >
+                          {component.description}
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={(e) => handleSmoothScroll(e, item.href)}
-                className="text-foreground hover:text-primary transition-colors duration-200 font-medium relative group"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
-              </a>
-            ))}
-          </nav>
+          {/* Logo centrato */}
+          <div className="flex justify-center">
+            <Link href="/" className="relative h-12 w-36 md:h-14 md:w-40 cursor-pointer">
+              <Image
+                src="/logo-ideacolor.png"
+                alt="Ideacolor"
+                fill
+                style={{ objectFit: 'contain' }}
+                priority
+              />
+            </Link>
+          </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            className="md:hidden hover:bg-primary/10 transition-colors duration-200 p-2 h-auto w-auto"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
-          </Button>
+          {/* Spazio vuoto a destra */}
+          <div></div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4">
-            <div className="flex flex-col space-y-4 pt-4 border-t border-border/30">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={(e) => handleSmoothScroll(e, item.href)}
-                  className="text-foreground hover:text-primary transition-colors duration-200 font-medium py-2 px-2 rounded-md hover:bg-primary/5"
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div>
-          </nav>
-        )}
       </div>
     </header>
   )
