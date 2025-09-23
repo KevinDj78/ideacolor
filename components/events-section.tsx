@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { ShinyButton } from "./ui/shiny-button"
 import { Calendar, Clock, MapPin, User, Mail, Phone, MessageSquare, Check } from "lucide-react"
 
 const events = [
@@ -105,11 +106,11 @@ export function EventsSection() {
   }
 
   return (
-    <section id="eventi" className="py-20 bg-secondary/30">
+    <section id="eventi" className="py-20 bg-[#6C0E23]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground mb-4">Eventi e corsi</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="font-playfair text-white text-4xl md:text-5xl font-bold mb-4">Eventi e corsi</h2>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Partecipa ai nostri eventi per imparare nuove tecniche e incontrare altri appassionati
           </p>
         </div>
@@ -140,13 +141,12 @@ export function EventsSection() {
 
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">{event.spots} posti disponibili</span>
-                  <Button
-                    size="sm"
-                    className="rounded-full bg-indigo-500 text-white hover:bg-white hover:text-indigo-500 border border-indigo-500 transition-colors duration-300"
+                  <ShinyButton
+                    className="rounded-full bg-pink-500 text-white hover:bg-white hover:text-pink-500 border border-pink-500 transition-colors duration-300"
                     onClick={() => openDetailsDialog(event)}
                   >
                     Dettagli
-                  </Button>
+                  </ShinyButton>
                 </div>
               </CardContent>
             </Card>

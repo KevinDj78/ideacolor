@@ -121,7 +121,7 @@ export function ProductsSection() {
   })
 
   return (
-    <section id="prodotti" className="py-20 bg-secondary/30">
+    <section id="prodotti" className="py-20 bg-[#F3DFBF]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground mb-4">I nostri prodotti</h2>

@@ -1,10 +1,25 @@
 "use client"
-
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
+import ColourfulText from "./ui/colourful-text"
+import { TypewriterEffect } from "./ui/typewriter-effect"
 
 export function HeroSection() {
+  const words = [
+    {
+      text: "Scopri",
+    },
+    {
+      text: "i",
+    },
+    {
+      text: "nostri",
+    },
+    {
+      text: "prodotti",
+    },
+  ];
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -25,21 +40,9 @@ export function HeroSection() {
           className={`font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight ${isVisible ? "animate-fade-in-up" : "opacity-0"
             }`}
         >
-          colori per il tuo <span className="text-pink-500">m</span>
-          <span className="text-cyan-500">o</span>
-          <span className="text-emerald-500">n</span>
-          <span className="text-orange-500">d</span>
-          <span className="text-indigo-500">o</span>
+          colori per il tuo <ColourfulText text="mondo" />
         </h1>
-
-        <Button
-          size="lg"
-          className={`bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 ${isVisible ? "animate-fade-in-up" : "opacity-0"
-            } [animation-delay:0.4s]`}
-          onClick={() => document.getElementById("prodotti")?.scrollIntoView({ behavior: "smooth" })}
-        >
-          Scopri i nostri prodotti
-        </Button>
+          <TypewriterEffect words={words} />
       </div>
 
       {/* Scroll Indicator */}
