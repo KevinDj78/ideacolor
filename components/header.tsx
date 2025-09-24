@@ -60,13 +60,14 @@ export function Header() {
           {/* Menu hamburger */}
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                className="p-0 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10"
-              >
-                <Menu size={40} /> {/* icona più grande */}
-              </Button>
-            </SheetTrigger>
+  <Button
+    variant="ghost"
+    className="p-0 w-14 h-14 flex items-center justify-center text-white 
+               hover:bg-white/10 border border-white rounded-lg"
+  >
+    <Menu size={40} />
+  </Button>
+</SheetTrigger>
 
             <SheetContent side="left" className="w-80">
               <div className="flex flex-col gap-4 mt-6">
