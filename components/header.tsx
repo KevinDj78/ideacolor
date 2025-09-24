@@ -1,18 +1,14 @@
-'use client'
+"use client"
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { Menu, X } from "lucide-react"
+import { Menu } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
-  SheetClose,
 } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
@@ -66,24 +62,13 @@ export function Header() {
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/10 p-0"
+                className="p-0 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10"
               >
-                <Menu className="h-10 w-10" /> {/* icona più grande */}
+                <Menu size={32} /> {/* dimensione icona Lucide in px */}
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-80">
-              
-              {/* Pulsante chiusura singolo */}
-              <div className="flex justify-end pt-6">
-                <SheetClose asChild>
-                  <Button variant="ghost" size="icon" className="h-10 w-10 p-0">
-                    <X className="h-10 w-10" />
-                  </Button>
-                </SheetClose>
-              </div>
 
-              {/* Menu */}
+            <SheetContent side="left" className="w-80">
               <div className="flex flex-col gap-4 mt-6">
                 {menuItems.map((item) => (
                   <Link
