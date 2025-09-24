@@ -62,9 +62,9 @@ export function Header() {
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
-                className="p-0 w-12 h-12 flex items-center justify-center text-white hover:bg-white/10"
+                className="p-0 w-14 h-14 flex items-center justify-center text-white hover:bg-white/10"
               >
-                <Menu size={32} /> {/* dimensione icona Lucide in px */}
+                <Menu size={40} /> {/* icona più grande */}
               </Button>
             </SheetTrigger>
 
