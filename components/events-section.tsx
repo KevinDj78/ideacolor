@@ -86,6 +86,7 @@ export default function EventCalendar() {
     phone: "",
     notes: "",
   })
+  const [showAll, setShowAll] = useState(false)
 
   const getCategoryColor = (category: Event["category"]) => {
     switch (category) {
@@ -136,7 +137,7 @@ export default function EventCalendar() {
   }
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-purple-50 to-blue-50">
+    <section className="py-16 px-4 bg-gradient-to-b from-purple-50 to-blue-50" id="eventi">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">EVENTI E WORKSHOP</h2>
@@ -189,7 +190,7 @@ export default function EventCalendar() {
                       className="bg-orange-500 hover:bg-orange-600 text-white"
                       disabled={event.currentParticipants >= event.maxParticipants}
                     >
-                      {event.currentParticipants >= event.maxParticipants ? "Sold Out" : "Prenota Posto"}
+                      {event.currentParticipants >= event.maxParticipants ? "Sold Out" : "Prenota Ora"}
                     </Button>
                   </div>
                 </CardContent>
@@ -199,7 +200,7 @@ export default function EventCalendar() {
 
           {/* Calendario Sidebar */}
           <div className="space-y-6">
-            <Card className="bg-white shadow-lg">
+            <Card className="bg-white shadow-lg py-6">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5 text-orange-500" />
@@ -246,7 +247,7 @@ export default function EventCalendar() {
             <Card className="bg-gradient-to-br from-orange-100 to-red-100 border-0">
               <CardContent className="p-6">
                 <h3 className="font-bold text-gray-900 mb-2">Evento Speciale</h3>
-                <p className="text-sm text-gray-700 mb-4">Fiera del Colore 2025 - Stand ideacolor</p>
+                <p className="text-sm text-gray-700 mb-4">Fiera del Colore 2026 - Stand ideacolor</p>
                 <Badge className="bg-red-500 text-white">30-31 Gennaio</Badge>
               </CardContent>
             </Card>
@@ -255,8 +256,8 @@ export default function EventCalendar() {
 
         {/* Modal Prenotazione */}
         {selectedEvent && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <Card className="bg-white max-w-md w-full max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <Card className="bg-white max-w-md w-full max-h-[90vh] overflow-y-auto py-6">
               <CardHeader>
                 <CardTitle className="text-xl">Prenota il tuo posto</CardTitle>
                 <p className="text-gray-600">{selectedEvent.title}</p>

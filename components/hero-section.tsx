@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
 import ColourfulText from "./ui/colourful-text"
 import { TypewriterEffect } from "./ui/typewriter-effect"
+import { BackgroundBeamsWithCollision } from "./ui/background-beams-with-collision"
 
 export function HeroSection() {
   const words = [
@@ -20,22 +20,17 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img src="/sfondo.webp" alt="Ambiente colorato" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-black/30"></div>
-      </div>
+    <section id="home" className="relative flex items-center justify-center overflow-hidden">
+    <BackgroundBeamsWithCollision>
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <h1
-          className={`font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight ${
+          className={`font-playfair text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight ${
             isVisible ? "animate-fade-in-up" : "opacity-0"
           }`}
         >
-          colori per il tuo <br className="md:hidden" />
+          Colori per il tuo <br className="md:hidden" />
           <ColourfulText text="mondo" />
         </h1>
         <TypewriterEffect words={words} />
@@ -45,7 +40,7 @@ export function HeroSection() {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
         <ChevronDown className="w-8 h-8 text-white/70" />
       </div>
-
+</BackgroundBeamsWithCollision>
     </section>
   )
 }

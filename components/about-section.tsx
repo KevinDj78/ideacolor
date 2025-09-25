@@ -22,14 +22,14 @@ export function AboutSection() {
   }, [])
 
   return (
-    <section id="chi-siamo" className="py-20 bg-[#F3DFBF] relative overflow-hidden">
+    <section id="chi-siamo" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className={`${isVisible ? "animate-slide-in-left" : "opacity-0"}`}>
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-blue-600 mb-6">
               Il colore è la nostra passione!
             </h2>
-            <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
+            <div className="space-y-4 text-lg text-white/70 leading-relaxed">
               <p>
 
 Nel nostro negozio, sia al dettaglio che all’ingrosso, vi proponiamo le migliori marche presenti sul mercato e le più innovative soluzioni tecniche.
