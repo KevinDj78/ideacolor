@@ -195,7 +195,7 @@ const Navbar1 = ({
                                     <Menu className="size-4" />
                                 </Button>
                             </SheetTrigger>
-                            <SheetContent className="overflow-y-auto">
+                            <SheetContent className="overflow-y-auto bg-black text-white">
                                 <SheetHeader>
                                     <SheetTitle>
                                         <a href={logo.url} className="flex justify-center gap-2">
@@ -211,6 +211,7 @@ const Navbar1 = ({
                                     <Accordion
                                         type="single"
                                         collapsible
+                                        defaultValue={menu[0].title} // Aggiungi questa linea
                                         className="flex w-full flex-col gap-4"
                                     >
                                         {menu.map((item) => renderMobileMenuItem(item))}
@@ -260,11 +261,11 @@ const renderMobileMenuItem = (item: MenuItem) => {
                 <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline">
                     {item.title}
                 </AccordionTrigger>
-                <AccordionContent className="mt-2">
-                    {item.items.map((subItem) => (
-                        <SubMenuLink key={subItem.title} item={subItem} />
-                    ))}
-                </AccordionContent>
+                <AccordionContent className="mt-2 p-2 space-y-2">
+    {item.items.map((subItem) => (
+        <SubMenuLink key={subItem.title} item={subItem} />
+    ))}
+</AccordionContent>
             </AccordionItem>
         );
     }
@@ -279,14 +280,16 @@ const renderMobileMenuItem = (item: MenuItem) => {
 const SubMenuLink = ({ item }: { item: MenuItem }) => {
     return (
         <a
-            className="hover:bg-muted hover:text-accent-foreground flex min-w-80 select-none flex-row gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors"
+            className="group hover:bg-muted w-full flex select-none flex-row gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors"
             href={item.url}
         >
-            <div className="text-foreground">{item.icon}</div>
+            <div className="text-white group-hover:text-black">{item.icon}</div>
             <div>
-                <div className="text-sm font-semibold">{item.title}</div>
+                <div className="text-white text-sm font-semibold group-hover:text-black">
+                    {item.title}
+                </div>
                 {item.description && (
-                    <p className="text-muted-foreground text-sm leading-snug">
+                    <p className="text-white text-sm leading-snug group-hover:text-black">
                         {item.description}
                     </p>
                 )}
