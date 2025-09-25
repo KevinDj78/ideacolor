@@ -1,59 +1,129 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { ShinyButton } from "./ui/shiny-button"
-import { Calendar, Clock, MapPin, User, Mail, Phone, MessageSquare, Check } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight } from "lucide-react"
 
-const events = [
+interface Event {
+  id: string
+  title: string
+  date: string
+  time: string
+  location: string
+  description: string
+  maxParticipants: number
+  currentParticipants: number
+  category: "workshop" | "consulenza" | "dimostrazione"
+}
+
+const events: Event[] = [
   {
-    id: 1,
-    title: "Workshop di pittura",
+    id: "1",
+    title: "Workshop: Tecniche di Pittura Decorativa",
     date: "2025-01-15",
     time: "14:00",
-    location: "Negozio Ideacolor",
+    location: "ideacolor Codroipo",
+    description: "Impara le tecniche professionali per creare effetti decorativi unici con le nostre vernici premium.",
+    maxParticipants: 12,
+    currentParticipants: 8,
+    category: "workshop",
+  },
+  {
+    id: "2",
+    title: "Consulenza Gratuita: Scelta Colori Casa",
+    date: "2025-01-18",
+    time: "10:00",
+    location: "ideacolor Codroipo",
     description:
-      "Impara le tecniche base della pittura decorativa con i nostri esperti. Workshop gratuito per principianti.",
-    spots: 12,
+      "Consulenza personalizzata con i nostri esperti coloristi per scegliere i colori perfetti per la tua casa.",
+    maxParticipants: 6,
+    currentParticipants: 3,
+    category: "consulenza",
   },
   {
-    id: 2,
-    title: "Mostra atelier internazionale della manualità creativa!",
-    date: "2025-02-08",
-    time: "09:00",
-    location: "Negozio Ideacolor",
-    description: "Vieni con noi ad ABILMENTE mostra atelier internazionale della manualità creativa!",
-    spots: 25,
+    id: "3",
+    title: "Dimostrazione: Vernici Eco-Friendly",
+    date: "2025-01-22",
+    time: "16:30",
+    location: "ideacolor Codroipo",
+    description: "Scopri i vantaggi delle nostre vernici eco-friendly e le loro applicazioni innovative.",
+    maxParticipants: 20,
+    currentParticipants: 15,
+    category: "dimostrazione",
   },
   {
-    id: 3,
-    title: "Corso avanzato decorazioni",
-    date: "2025-02-22",
-    time: "15:30",
-    location: "Negozio Ideacolor",
-    description: "Corso avanzato per imparare tecniche professionali di decorazione e finitura.",
-    spots: 8,
+    id: "4",
+    title: "Workshop: Restauro Mobili Antichi",
+    date: "2025-01-25",
+    time: "09:30",
+    location: "ideacolor Codroipo",
+    description: "Tecniche avanzate per il restauro e la protezione di mobili antichi con prodotti specializzati.",
+    maxParticipants: 8,
+    currentParticipants: 5,
+    category: "workshop",
+  },
+  {
+    id: "5",
+    title: "Consulenza: Progetti Commerciali",
+    date: "2025-01-28",
+    time: "11:00",
+    location: "ideacolor Codroipo",
+    description: "Supporto specializzato per architetti e progettisti nella scelta di soluzioni per spazi commerciali.",
+    maxParticipants: 4,
+    currentParticipants: 2,
+    category: "consulenza",
   },
 ]
 
-export function EventsSection() {
-  const [selectedEvent, setSelectedEvent] = useState<(typeof events)[0] | null>(null)
-  const [bookingEvent, setBookingEvent] = useState<(typeof events)[0] | null>(null)
-  const [showBookingDialog, setShowBookingDialog] = useState(false)
-  const [showDetailsDialog, setShowDetailsDialog] = useState(false)
-  const [bookingSuccess, setBookingSuccess] = useState(false)
-  const [formData, setFormData] = useState({
-    nome: '',
-    cognome: '',
-    email: '',
-    telefono: '',
-    note: ''
+export default function EventCalendar() {
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
+  const [currentMonth, setCurrentMonth] = useState(new Date())
+  const [bookingForm, setBookingForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    notes: "",
   })
+
+  const getCategoryColor = (category: Event["category"]) => {
+    switch (category) {
+      case "workshop":
+        return "bg-blue-500"
+      case "consulenza":
+        return "bg-green-500"
+      case "dimostrazione":
+        return "bg-orange-500"
+      default:
+        return "bg-gray-500"
+    }
+  }
+
+  const getCategoryLabel = (category: Event["category"]) => {
+    switch (category) {
+      case "workshop":
+        return "Workshop"
+      case "consulenza":
+        return "Consulenza"
+      case "dimostrazione":
+        return "Dimostrazione"
+      default:
+        return "Evento"
+    }
+  }
+
+  const handleBooking = (event: Event) => {
+    setSelectedEvent(event)
+  }
+
+  const submitBooking = () => {
+    // Qui implementeresti la logica di prenotazione
+    console.log("[v0] Booking submitted:", { event: selectedEvent, form: bookingForm })
+    alert(`Prenotazione confermata per "${selectedEvent?.title}" presso ideacolor Codroipo! Ti contatteremo presto.`)
+    setSelectedEvent(null)
+    setBookingForm({ name: "", email: "", phone: "", notes: "" })
+  }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -65,263 +135,206 @@ export function EventsSection() {
     })
   }
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    // Qui potresti inviare i dati al server
-    console.log('Prenotazione per:', bookingEvent?.title)
-    console.log('Dati utente:', formData)
-    
-    // Simula invio dati
-    setBookingSuccess(true)
-    setTimeout(() => {
-      setShowBookingDialog(false)
-      setBookingSuccess(false)
-      setFormData({
-        nome: '',
-        cognome: '',
-        email: '',
-        telefono: '',
-        note: ''
-      })
-    }, 2000)
-  }
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }))
-  }
-
-  const openBookingDialog = (event: typeof events[0]) => {
-    setBookingEvent(event)
-    setShowDetailsDialog(false)
-    setShowBookingDialog(true)
-  }
-
-  const openDetailsDialog = (event: typeof events[0]) => {
-    setSelectedEvent(event)
-    setShowDetailsDialog(true)
-  }
-
   return (
-    <section id="eventi" className="py-20 bg-[#6C0E23]">
-      <div className="container mx-auto px-4">
+    <section className="py-16 px-4 bg-gradient-to-br from-purple-50 to-blue-50">
+      <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="font-playfair text-white text-4xl md:text-5xl font-bold mb-4">Eventi e corsi</h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Partecipa ai nostri eventi per imparare nuove tecniche e incontrare altri appassionati
-          </p>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">EVENTI E WORKSHOP</h2>
+          <p className="text-xl text-gray-600">Partecipa ai nostri eventi esclusivi e scopri il mondo dei colori</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map((event) => (
-            <Card key={event.id} className="hover:shadow-lg transition-all duration-300 bg-card">
-              <CardContent className="p-6">
-                <div className="mb-4">
-                  <h3 className="font-semibold text-xl text-card-foreground mb-2">{event.title}</h3>
-                  <div className="space-y-2 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>{formatDate(event.date)}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4" />
-                      <span>{event.location}</span>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Lista Eventi */}
+          <div className="lg:col-span-2 space-y-6">
+            {events.map((event) => (
+              <Card key={event.id} className="bg-white shadow-lg hover:shadow-xl transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge className={`${getCategoryColor(event.category)} text-white`}>
+                          {getCategoryLabel(event.category)}
+                        </Badge>
+                        <Badge variant="outline" className="text-gray-600">
+                          {event.currentParticipants}/{event.maxParticipants} partecipanti
+                        </Badge>
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
+                      <p className="text-gray-600 mb-4">{event.description}</p>
+
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-4 w-4" />
+                          {formatDate(event.date)}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          {event.time}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-4 w-4" />
+                          {event.location}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <p className="text-muted-foreground mb-4 line-clamp-2">{event.description}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-sm text-gray-500">
+                      <Users className="h-4 w-4" />
+                      {event.maxParticipants - event.currentParticipants} posti disponibili
+                    </div>
+                    <Button
+                      onClick={() => handleBooking(event)}
+                      className="bg-orange-500 hover:bg-orange-600 text-white"
+                      disabled={event.currentParticipants >= event.maxParticipants}
+                    >
+                      {event.currentParticipants >= event.maxParticipants ? "Sold Out" : "Prenota Posto"}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">{event.spots} posti disponibili</span>
-                  <ShinyButton
-                    className="rounded-full bg-pink-500 text-white hover:bg-white hover:text-pink-500 border border-pink-500 transition-colors duration-300"
-                    onClick={() => openDetailsDialog(event)}
-                  >
-                    Dettagli
-                  </ShinyButton>
+          {/* Calendario Sidebar */}
+          <div className="space-y-6">
+            <Card className="bg-white shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-orange-500" />
+                  Calendario Eventi
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <Button variant="ghost" size="sm">
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <h3 className="font-semibold">
+                      {currentMonth.toLocaleDateString("it-IT", { month: "long", year: "numeric" })}
+                    </h3>
+                    <Button variant="ghost" size="sm">
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-1 text-center text-xs">
+                    {["L", "M", "M", "G", "V", "S", "D"].map((day) => (
+                      <div key={day} className="p-2 font-semibold text-gray-500">
+                        {day}
+                      </div>
+                    ))}
+                    {Array.from({ length: 31 }, (_, i) => (
+                      <div
+                        key={i + 1}
+                        className={`p-2 rounded cursor-pointer hover:bg-orange-100 ${
+                          [15, 18, 22, 25, 28].includes(i + 1)
+                            ? "bg-orange-500 text-white font-semibold"
+                            : "text-gray-700"
+                        }`}
+                      >
+                        {i + 1}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          ))}
+
+            <Card className="bg-gradient-to-br from-orange-100 to-red-100 border-0">
+              <CardContent className="p-6">
+                <h3 className="font-bold text-gray-900 mb-2">Evento Speciale</h3>
+                <p className="text-sm text-gray-700 mb-4">Fiera del Colore 2025 - Stand ideacolor</p>
+                <Badge className="bg-red-500 text-white">30-31 Gennaio</Badge>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
-        {/* Dialog Dettagli Evento */}
-        <Dialog open={showDetailsDialog} onOpenChange={setShowDetailsDialog}>
-          <DialogContent className="max-w-md">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-semibold">{selectedEvent?.title}</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Calendar className="w-4 h-4" />
-                  <span>{selectedEvent && formatDate(selectedEvent.date)}</span>
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Clock className="w-4 h-4" />
-                  <span>{selectedEvent?.time}</span>
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <MapPin className="w-4 h-4" />
-                  <span>{selectedEvent?.location}</span>
-                </div>
-              </div>
-              <p className="text-foreground">{selectedEvent?.description}</p>
-              <div className="flex items-center justify-between pt-4 border-t">
-                <span className="text-sm text-muted-foreground">{selectedEvent?.spots} posti disponibili</span>
-                <Button
-                  className="rounded-full bg-green-600 text-white hover:bg-green-700 transition-colors duration-300"
-                  onClick={() => selectedEvent && openBookingDialog(selectedEvent)}
-                >
-                  Prenota un posto
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-
-        {/* Dialog Prenotazione */}
-        <Dialog open={showBookingDialog} onOpenChange={setShowBookingDialog}>
-          <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-semibold">
-                Prenota: {bookingEvent?.title}
-              </DialogTitle>
-            </DialogHeader>
-            
-            {bookingSuccess ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Check className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-green-600 mb-2">Prenotazione confermata!</h3>
-                <p className="text-muted-foreground">Riceverai una email di conferma a breve.</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                  <h4 className="font-medium mb-2">{bookingEvent?.title}</h4>
-                  <div className="text-sm text-muted-foreground space-y-1">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-3 h-3" />
-                      <span>{bookingEvent && formatDate(bookingEvent.date)}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-3 h-3" />
-                      <span>{bookingEvent?.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-3 h-3" />
-                      <span>{bookingEvent?.location}</span>
-                    </div>
+        {/* Modal Prenotazione */}
+        {selectedEvent && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <Card className="bg-white max-w-md w-full max-h-[90vh] overflow-y-auto">
+              <CardHeader>
+                <CardTitle className="text-xl">Prenota il tuo posto</CardTitle>
+                <p className="text-gray-600">{selectedEvent.title}</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                    <Calendar className="h-4 w-4" />
+                    {formatDate(selectedEvent.date)} alle {selectedEvent.time}
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <MapPin className="h-4 w-4" />
+                    {selectedEvent.location}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="nome" className="flex items-center gap-2">
-                      <User className="w-4 h-4" />
-                      Nome *
-                    </Label>
-                    <Input
-                      id="nome"
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Nome Completo *</label>
+                    <input
                       type="text"
-                      placeholder="Il tuo nome"
-                      value={formData.nome}
-                      onChange={(e) => handleInputChange('nome', e.target.value)}
-                      required
-                      className="rounded-lg"
+                      value={bookingForm.name}
+                      onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      placeholder="Il tuo nome completo"
                     />
                   </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="cognome">Cognome *</Label>
-                    <Input
-                      id="cognome"
-                      type="text"
-                      placeholder="Il tuo cognome"
-                      value={formData.cognome}
-                      onChange={(e) => handleInputChange('cognome', e.target.value)}
-                      required
-                      className="rounded-lg"
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                    <input
+                      type="email"
+                      value={bookingForm.email}
+                      onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      placeholder="la-tua-email@esempio.com"
                     />
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    Email *
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="la.tua@email.com"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    required
-                    className="rounded-lg"
-                  />
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Telefono *</label>
+                    <input
+                      type="tel"
+                      value={bookingForm.phone}
+                      onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      placeholder="+39 123 456 7890"
+                    />
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="telefono" className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
-                    Telefono
-                  </Label>
-                  <Input
-                    id="telefono"
-                    type="tel"
-                    placeholder="+39 123 456 7890"
-                    value={formData.telefono}
-                    onChange={(e) => handleInputChange('telefono', e.target.value)}
-                    className="rounded-lg"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="note" className="flex items-center gap-2">
-                    <MessageSquare className="w-4 h-4" />
-                    Note aggiuntive
-                  </Label>
-                  <Textarea
-                    id="note"
-                    placeholder="Eventuali richieste speciali o informazioni aggiuntive..."
-                    value={formData.note}
-                    onChange={(e) => handleInputChange('note', e.target.value)}
-                    className="rounded-lg resize-none h-20"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Note (opzionale)</label>
+                    <textarea
+                      value={bookingForm.notes}
+                      onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      rows={3}
+                      placeholder="Eventuali richieste speciali o domande..."
+                    />
+                  </div>
                 </div>
 
                 <div className="flex gap-3 pt-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="flex-1 rounded-full"
-                    onClick={() => setShowBookingDialog(false)}
-                  >
+                  <Button variant="outline" onClick={() => setSelectedEvent(null)} className="flex-1">
                     Annulla
                   </Button>
                   <Button
-                    type="submit"
-                    className="flex-1 rounded-full bg-green-600 text-white hover:bg-green-700 transition-colors duration-300"
-                    disabled={!formData.nome || !formData.cognome || !formData.email}
+                    onClick={submitBooking}
+                    className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
+                    disabled={!bookingForm.name || !bookingForm.email || !bookingForm.phone}
                   >
-                    Conferma prenotazione
+                    Conferma Prenotazione
                   </Button>
                 </div>
-                </div>
-            )}
-          </DialogContent>
-        </Dialog>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </section>
   )
