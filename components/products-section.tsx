@@ -108,7 +108,7 @@ export default function App() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 py-16 px-4">
+    <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-gray-200 py-16 px-4">
       <div className="container mx-auto">
         <div className="text-center mb-12">
           <h1 className="font-playfair text-4xl md:text-5xl font-bold text-gray-100 mb-4">I nostri prodotti</h1>
