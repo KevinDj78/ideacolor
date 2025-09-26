@@ -4,7 +4,7 @@ interface LoadingScreenProps {
   message?: string
 }
 
-export function LoadingScreen({ message = "Loading..." }: LoadingScreenProps) {
+export function LoadingScreen({ message = "Caricamento..." }: LoadingScreenProps) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
       <div className="flex flex-col items-center justify-center space-y-8">
